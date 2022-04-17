@@ -1,25 +1,63 @@
-import logo from './logo.svg';
+
+import React from 'react';
 import './App.css';
+import Form from './fragments/Form';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+export default class App extends React.Component{
+  constructor()
+  {
+    super();
+    this.state = {
+      isLoaded: false,
+      user: {},
+      userInput: '',
+      repos: []
+    }
+  }
+  setUser = (newUser) => {
+    this.setState({ user: newUser });
+  }
+
+  inputValue = (e) => {
+    const { user } = this.state;
+    const userInput = e.target.value;
+    this.setState({ userInput: userInput}); 
+    this.setState({
+
+    })    
+    }
+
+  componentDidMount(){
+    const { userInput } = this.state;
+    fetch(`https://api.github.com/users/${userInput}`)
+    .then(res => res.json())
+    .then(
+      (data) => {
+        this.setState(
+          {user: {
+            avatarUrl: data.avatar_url,
+            name: data.name,
+            location: data.location,
+            bio: data.bio
+          }}
+        ) 
+              
+      },
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      })
+  } 
+ 
+  render()
+  {
+    return (
+      <>
+      <Form inputValue= {this.inputValue} user={this.state.user}/>
+      </>
+    )
+  }
 }
-
-export default App;
