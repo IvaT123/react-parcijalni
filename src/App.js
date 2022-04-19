@@ -15,20 +15,8 @@ export default class App extends React.Component{
       repos: []
     }
   }
-  setUser = (newUser) => {
-    this.setState({ user: newUser });
-  }
-
-  inputValue = (e) => {
-    const { user } = this.state;
-    const userInput = e.target.value;
-    this.setState({ userInput: userInput}); 
-    this.setState({
-
-    })    
-    }
-
-  componentDidMount(){
+  
+  fetchApi = () => {
     const { userInput } = this.state;
     fetch(`https://api.github.com/users/${userInput}`)
     .then(res => res.json())
@@ -40,23 +28,42 @@ export default class App extends React.Component{
             name: data.name,
             location: data.location,
             bio: data.bio
-          }}
-        ) 
-              
+          },
+          isLoaded: true
+        }
+        )              
       },
-      (error) => {
-        this.setState({
-          isLoaded: true,
-          error
-        });
-      })
-  } 
+      );
+      fetch(`https://api.github.com/users/${userInput}/repos`)
+      .then(res => res.json())
+      .then(
+        (repos) => {
+          
+          this.setState(
+            {repos: 
+              repos.map((rep) => 
+                [
+                rep.name,
+                 rep.id
+                ]
+              )
+            }
+          )
+        }
+      )
+  }
+  inputValue = (e) => {
+    
+    this.setState({ userInput: e.target.value}, this.fetchApi);
+        
+    }
+
  
   render()
   {
     return (
       <>
-      <Form inputValue= {this.inputValue} user={this.state.user}/>
+      <Form inputValue= {this.inputValue} user={this.state.user} userInput={this.state.userInput} repos={this.state.repos}/>
       </>
     )
   }
