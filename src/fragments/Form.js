@@ -17,10 +17,10 @@ constructor()
         e.preventDefault();
 
         if(!this.state.showCom){
-            this.setState({showCom:true})
+            setTimeout(() => {this.setState({showCom:true}, this.props.apiData )}, 1000)
+
         } else this.setState({showCom: false})
-    
-    
+     ;
     }  
 
 
@@ -48,8 +48,9 @@ constructor()
             </Button>
             </div>
             </form>}
-            {this.state.showCom &&
+            {this.state.showCom &&     
             <List data = {this.props.user} repos = {this.props.repos} onClick= {this.onClick}/>
+            
             }
             </>
             

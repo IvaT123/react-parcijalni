@@ -54,7 +54,7 @@ export default class App extends React.Component{
   }
   inputValue = (e) => {
     
-    this.setState({ userInput: e.target.value}, this.fetchApi);
+    this.setState({ userInput: e.target.value});
         
     }
 
@@ -63,7 +63,7 @@ export default class App extends React.Component{
   {
     return (
       <>
-      <Form inputValue= {this.inputValue} user={this.state.user} userInput={this.state.userInput} repos={this.state.repos}/>
+      <Form inputValue= {this.inputValue} user={this.state.user} userInput={this.state.userInput} repos={this.state.repos} apiData={this.fetchApi}/>
       </>
     )
   }
