@@ -22,6 +22,7 @@ export default class App extends React.Component{
     .then(res => res.json())
     .then(
       (data) => {
+       if(data.name !== undefined){
         this.setState(
           {user: {
             avatarUrl: data.avatar_url,
@@ -31,7 +32,20 @@ export default class App extends React.Component{
           },
           isLoaded: true
         }
-        )              
+        )
+       } else {
+         this.setState(
+           {repos:[], user :{
+             avatarUrl: undefined,
+             name: "User not found!",
+             location: "error",
+             bio: "error"
+           }}
+         )
+       }
+                  
+         
+                      
       },
       );
       fetch(`https://api.github.com/users/${userInput}/repos`)
@@ -52,18 +66,22 @@ export default class App extends React.Component{
         }
       )
   }
-  inputValue = (e) => {
-    
-    this.setState({ userInput: e.target.value});
-        
+  removeData = () => {
+    const { user, repos } = this.state;
+    if(user !== {} && repos !== []){
+       this.setState({user: {}, repos: []})
     }
+}
+  inputValue = (e) => {   
+    this.setState({ userInput: e.target.value});       
+  }
 
  
   render()
   {
     return (
       <>
-      <Form inputValue= {this.inputValue} user={this.state.user} userInput={this.state.userInput} repos={this.state.repos} apiData={this.fetchApi}/>
+      <Form inputValue= {this.inputValue} user={this.state.user} userInput={this.state.userInput} repos={this.state.repos} apiData={this.fetchApi} removeData = {this.removeData}/>
       </>
     )
   }

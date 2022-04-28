@@ -10,17 +10,19 @@ constructor()
 {
     super();
     this.state = {
-        showCom:false
+        showCom:false,
     }
 }
+    
       onClick = (e) => {
         e.preventDefault();
 
         if(!this.state.showCom){
-            setTimeout(() => {this.setState({showCom:true}, this.props.apiData )}, 1000)
+            setTimeout(() => {this.setState({showCom:true}, this.props.apiData )}, 1500)
 
-        } else this.setState({showCom: false})
-     ;
+        } else this.setState({showCom: false}, this.props.removeData)
+        
+     
     }  
 
 

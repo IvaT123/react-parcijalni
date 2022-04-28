@@ -13,7 +13,7 @@ export default function List(props){
         <div className="w-50 p-3 border border-secondary m-auto">
         <h1> <img 
         src={props.data.avatarUrl}
-        alt= 'display'
+        alt= 'img'
         className="w-50 p-3"/> { props.data.name } </h1>
         
         <h3>BIO: <span className="fw-light">{props.data.bio}</span> </h3>
